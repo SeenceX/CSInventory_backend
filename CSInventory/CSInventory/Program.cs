@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using CSInventoryDatabase.Database;
 using CSInventoryDatabase.Managers;
+using CSInventory.Database;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Hosting.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<UsersContext>(options => options.UseSqlServer(@"Server=(localdb)\mssqllocaldb; Database=cs-inventory; Trusted_Connection=True; TrustServerCertificate=true"));
+builder.Services.AddDbContext<SiteContext>(options => options.UseSqlServer(@"Server=(localdb)\mssqllocaldb; Database=cs-inventory; Trusted_Connection=True; TrustServerCertificate=true"));
 
 builder.Services.AddScoped<IUsersManager, UsersManager>();
 

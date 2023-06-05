@@ -1,13 +1,13 @@
-﻿using CSInventoryDatabase.Data;
-using CSInventoryDatabase.Database;
+﻿using CSInventory.Database;
+using CSInventoryDatabase.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace CSInventoryDatabase.Managers
 {
     public class UsersManager : IUsersManager
     {
-        private readonly UsersContext _dbContext;
-        public UsersManager(UsersContext dbContext)
+        private readonly SiteContext _dbContext;
+        public UsersManager(SiteContext dbContext)
         {
             _dbContext = dbContext;
         }

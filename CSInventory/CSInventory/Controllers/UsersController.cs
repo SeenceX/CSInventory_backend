@@ -35,7 +35,7 @@ namespace CSInventoryDatabase.Controllers
         [HttpPost("login")]
         public async Task<UserDto> GetByLogPass(Authorization data)
         {
-            return await _usersManager.GetByLogPass(data);
+            return await _usersManager.Login(data);
         }
     }
 }
