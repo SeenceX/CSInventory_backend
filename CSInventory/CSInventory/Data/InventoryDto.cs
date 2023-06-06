@@ -2,8 +2,8 @@
 {
     public class InventoryDto
     {
-        public int UserId { get; set; }
         public int ItemId { get; set; }
+        public string ItemImg { get; set; }
         public string ItemName { get; set; }
         public int ItemCount { get; set; }
         public decimal InitialPrice { get; set; }
