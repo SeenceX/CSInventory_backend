@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CSInventory.Controllers
 {
-    [Route("api/[controller]")]
+    [Microsoft.AspNetCore.Mvc.Route("api/[controller]")]
     [ApiController]
     public class InventoryController : ControllerBase
     {
@@ -17,7 +17,7 @@ namespace CSInventory.Controllers
         }
 
         [HttpGet("{Id:int}")]
-        public async Task<List<UserDto>> GetUserInventoryById(int Id)
+        public async Task<List<InventoryDto>> GetUserInventoryById(int Id)
         {
             return await _inventoryManager.GetUserInventoryById(Id);
         }
