@@ -33,8 +33,8 @@ namespace CSInventory.Managers
                             where inv.User.UserId == id
                             select new InventoryDto
                             {
-                                UserId = inv.User.UserId,
                                 ItemId = a.ItemId,
+                                ItemImg = a.ItemImg,
                                 ItemName = a.ItemName,
                                 ItemCount = inv.ItemCount,
                                 InitialPrice = inv.InitialPrice,
