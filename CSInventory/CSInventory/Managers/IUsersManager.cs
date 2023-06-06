@@ -6,8 +6,7 @@ namespace CSInventoryDatabase.Managers
     {
         Task<List<UserDto>> Get();
         Task<UserDto> GetById(int id);
-        Task<UserDto> CreateUser(CreateUserRequest createUserRequest);
-        Task<UserDto> Login(Authorization data);
-
+        Task<UserDto> Registration(CreateUserRequest createUserRequest);
+        Task<UserDto> Login(CreateUserRequest createUserRequest);
     }
 }
