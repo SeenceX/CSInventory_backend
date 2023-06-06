@@ -13,7 +13,7 @@ namespace CSInventory.Managers
             _dbContext = dbContext;
         }
 
-        public async Task<List<UserDto>> GetUserInventoryById(int id)
+        public async Task<List<InventoryDto>> GetUserInventoryById(int id)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == id);
             if (user == null)
@@ -21,27 +21,33 @@ namespace CSInventory.Managers
                 return null;
             }
 
-            
-            /*var result = _dbContext.Users
-                .Join(_dbContext.Inventory, u => u.UserId, i => i.UserId, (u, i) => new { User = u, Inventory = i })
-                .Join(_dbContext.AllItems, ii => ii.Inventory.ItemId, ai => ai.ItemId, (ii, ai) => new { InventoryAndUser = ii, AllItems = ai })
-                .Select(r => new InventoryDto
-                {
-                    UserId = r.InventoryAndUser.User.UserId,
-                    ItemId = r.AllItems.ItemId,
-                    ItemName = r.AllItems.ItemName,
-                    ItemCount = r.InventoryAndUser.Inventory.ItemCount,
-                    InitialPrice = r.InventoryAndUser.Inventory.InitialPrice,
-                    CurrentPrice = r.AllItems.ItemPrice,
-                    ItemQuality = r.AllItems.ItemQualityId.NameQuality,
-                    ItemRare = r.AllItems.RareId.NameRare,
-                    ItemType = r.AllItems.TypeId.NameType,
-                    ItemCollection = r.AllItems.CollectionId.NameCollection
-                });*/
 
+            using (var context = _dbContext)
+            {
+                var res = from a in context.AllItems
+                            join q in context.ItemsQuality on a.ItemsQuality.IdQuality equals q.IdQuality
+                            join r in context.itemsRares on a.itemsRare.IdRare equals r.IdRare
+                            join t in context.ItemsType on a.ItemsType.IdType equals t.IdType
+                            join c in context.ItemsCollections on a.ItemCollection.IdCollection equals c.IdCollection
+                            join inv in context.Inventory on a.ItemId equals inv.AllItems.ItemId
+                            where inv.User.UserId == id
+                            select new InventoryDto
+                            {
+                                UserId = inv.User.UserId,
+                                ItemId = a.ItemId,
+                                ItemName = a.ItemName,
+                                ItemCount = inv.ItemCount,
+                                InitialPrice = inv.InitialPrice,
+                                CurrentPrice = a.ItemPrice,
+                                ItemQuality = q.NameQuality,
+                                ItemRare = r.NameRare,
+                                ItemType = t.NameType,
+                                ItemCollection = c.NameCollection
+                            };
 
-            
-            return result;
+                return res.ToList();
+               
+            }
         }
     }
 }

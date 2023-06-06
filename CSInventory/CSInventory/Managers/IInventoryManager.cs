@@ -1,9 +1,9 @@
-﻿using CSInventoryDatabase.Data;
+﻿using CSInventory.Data;
 
 namespace CSInventory.Managers
 {
     public interface IInventoryManager
     {
-        Task<List<UserDto>> GetUserInventoryById(int id);
+        Task<List<InventoryDto>> GetUserInventoryById(int id);
     }
 }
