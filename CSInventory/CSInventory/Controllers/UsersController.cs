@@ -26,16 +26,16 @@ namespace CSInventoryDatabase.Controllers
             return await _usersManager.GetById(Id);
         }
 
-        [HttpPost]
+        [HttpPost("registration")]
         public async Task<UserDto> CreateUser([FromBody] CreateUserRequest request)
         {
-            return await _usersManager.CreateUser(request);
+            return await _usersManager.Registration(request);
         }
 
         [HttpPost("login")]
-        public async Task<UserDto> GetByLogPass(Authorization data)
+        public async Task<UserDto> GetByLogPass(CreateUserRequest request)
         {
-            return await _usersManager.Login(data);
+            return await _usersManager.Login(request);
         }
     }
 }

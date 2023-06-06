@@ -41,6 +41,7 @@ namespace CSInventory.Database
         public int ItemCount { get; set; }
         [Required]
         public float InitialPrice { get; set; }
+        public User UserId { get; set; }
     }
 
     [Table("all_items")]
