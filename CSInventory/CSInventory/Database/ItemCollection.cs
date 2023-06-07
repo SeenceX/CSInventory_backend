@@ -5,111 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CSInventory.Database
 {
 
-    [Table("users")]
-    public class User
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public int UserId { get; set; }
-
-        [Required]
-        public string Login { get; set; }
-
-        [Required]
-        public string Password { get; set; }
-
-        [Required]
-        public DateTime RegistrationDate { get; set; }
-
-        //внешний ключ на таблицу inventory, внутри которой создастся поле UserId связь один ко многиь (1->m)
-        //[ForeignKey("InventoryId")]
-        //public List<Inventory> Inventories { get; set; }
-
-
-    }
-
-    [Table("inventory")]
-    public class Inventory
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public int Id { get; set; }
-        [ForeignKey("UserId")]
-        public User User { get; set; }
-        
-        [ForeignKey("ItemId")]
-        public AllItems AllItems { get; set; }
-        
-        public int ItemCount { get; set; }
-        
-        public decimal InitialPrice { get; set; }
-        
-
-    }
-
-    [Table("all_items")]
-    public class AllItems
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public int ItemId { get; set; }
-        public string ItemImg { get; set; }
-        
-        public string ItemName { get; set; }
-        
-        public decimal ItemPrice { get; set; }
-        [ForeignKey("IdQuality")]
-        public ItemQuality ItemsQuality { get; set; } // навигационное свойство
-        [ForeignKey("IdRare")]
-        public ItemRare itemsRare { get; set; }
-        [ForeignKey("IdType")]
-        public ItemType ItemsType { get; set; }
-        [ForeignKey("IdCollection")]
-        //внешний ключ на таблицу ItemsCollections
-        public ItemCollection ItemCollection { get; set; }
-        [ForeignKey("IdItem")]
-        //внешний ключ на таблицу inventory, внутри создастся поле ItemId
-        public List<Inventory> Inventories { get; set; }
-    }
-
-    [Table("items_quality")]
-    public class ItemQuality
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public int IdQuality { get; set; }
-        [Required]
-        public string NameQuality { get; set; }
-
-    }
-
-    [Table("items_rare")]
-    public class ItemRare
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public int IdRare { get; set; }
-        [Required]
-        public string NameRare { get; set; }
-
-    }
-
-    [Table("items_type")]
-    public class ItemType
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public int IdType { get; set; }
-        [Required]
-        public string NameType { get; set; }
-
-    }
+    /*
 
     [Table("items_collection")]
     public class ItemCollection
@@ -122,7 +18,7 @@ namespace CSInventory.Database
         public string NameCollection { get; set; }
 
     }
-#
+    */
 
     public class SiteContext : DbContext
     {
@@ -141,47 +37,7 @@ namespace CSInventory.Database
         {
             base.OnModelCreating(modelBuilder);
 
-            //добавление начальных данных для таблицы Users
-            modelBuilder.Entity<User>().HasData(
-                new User { UserId = 1, Login = "test1", Password = "pass1" },
-                new User { UserId = 2, Login = "test2", Password = "pass2" }
-            );
-
-            //добавление начальных данных для таблицы ItemsQuality
-            modelBuilder.Entity<ItemQuality>().HasData(
-                new ItemQuality { IdQuality = 1, NameQuality = "-" },
-                new ItemQuality { IdQuality = 2, NameQuality = "Закаленное в боях"},
-                new ItemQuality { IdQuality = 3, NameQuality = "Поношенное" },
-                new ItemQuality { IdQuality = 4, NameQuality = "После полевых испытаний" },
-                new ItemQuality { IdQuality = 5, NameQuality = "Немного поношенное" },
-                new ItemQuality { IdQuality = 6, NameQuality = "Прямо с завода" }
-            );
-
-            //добавление начальных данных для таблицы ItemsRare
-            modelBuilder.Entity<ItemRare>().HasData(
-                new ItemRare { IdRare = 1, NameRare = "Базовый класс" },
-                new ItemRare { IdRare = 2, NameRare = "Ширпотреб" },
-                new ItemRare { IdRare = 3, NameRare = "Промышленное качество" },
-                new ItemRare { IdRare = 4, NameRare = "Армейское качество" },
-                new ItemRare { IdRare = 5, NameRare = "Запрещённое" },
-                new ItemRare { IdRare = 6, NameRare = "Засекреченное" },
-                new ItemRare { IdRare = 7, NameRare = "Тайное" },
-                new ItemRare { IdRare = 8, NameRare = "Тайное*" },
-                new ItemRare { IdRare = 9, NameRare = "Сувенир" }
-                
-            );
-
-            //добавление начальных данных для таблицы ItemsType
-            modelBuilder.Entity<ItemType>().HasData(
-                new ItemType { IdType = 1, NameType = "Пистолет" },
-                new ItemType { IdType = 2, NameType = "Пистолет-пулемёт" },
-                new ItemType { IdType = 3, NameType = "Штурмовая винтовка" },
-                new ItemType { IdType = 4, NameType = "Снайперская винтовка" },
-                new ItemType { IdType = 5, NameType = "Дробовик" },
-                new ItemType { IdType = 6, NameType = "Нож" },
-                new ItemType { IdType = 7, NameType = "Перчатки" },
-                new ItemType { IdType = 8, NameType = "Другое" }
-            );
+            
 
             //добавление начальных данных для таблицы ItemsCollections
             modelBuilder.Entity<ItemCollection>().HasData(
@@ -263,4 +119,4 @@ namespace CSInventory.Database
             );
         }
     }
-}#
+}
