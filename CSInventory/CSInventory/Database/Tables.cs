@@ -71,8 +71,6 @@ namespace CSInventory.Database
         //внешний ключ на таблицу ItemsCollections
         public ItemCollection ItemCollection { get; set; }
         
-        //внешний ключ на таблицу inventory, внутри создастся поле ItemId
-        public List<Inventory> Inventories { get; set; }
     }
 
     [Table("items_quality")]

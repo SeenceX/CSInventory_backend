@@ -59,13 +59,14 @@ namespace CSInventory.Managers
             }
             using (var context = _dbContext)
             {
-                /*var res = from a in context.Inventory
-                          where a.UserId == userId
+                var res = from a in context.Inventory
+                          where a.Id == userId
                           select a.AllItems;
-                res.Append<int>(itemId);
-                context.SaveChangesAsync();*/
-                //context.Inventory.Where(x => x.User == user).ExecuteUpdate(s => s.SetProperty(u => u.AllItems, u => u.AllItems.));
-                context.Inventory.Where(x => x.User == user).AllItems.Append<AllItems>(context.AllItems.Where(x => x.ItemId == itemId));
+                res.Append<AllItems>(x => x = context.AllItems.Where(x => x.ItemId == itemId));
+                context.SaveChangesAsync();
+                //context.ExecuteUpdate(s => s.SetProperty(u => u.AllItems, u => u.AllItems.Append<AllItems>(context.AllItems.Where(x => x.ItemId == itemId))));
+                
+                //using context.AllItems.Append<AllItems>(context.AllItems.Where(x => x.ItemId == itemId));
                 return "Предмет успешно добавлен";
 
             }
