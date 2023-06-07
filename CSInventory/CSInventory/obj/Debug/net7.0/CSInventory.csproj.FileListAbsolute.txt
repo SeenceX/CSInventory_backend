@@ -68,3 +68,13 @@ C:\Users\andre\Desktop\backend\CSInventory\CSInventory\obj\Debug\net7.0\refint\C
 C:\Users\andre\Desktop\backend\CSInventory\CSInventory\obj\Debug\net7.0\CSInventory.pdb
 C:\Users\andre\Desktop\backend\CSInventory\CSInventory\obj\Debug\net7.0\CSInventory.genruntimeconfig.cache
 C:\Users\andre\Desktop\backend\CSInventory\CSInventory\obj\Debug\net7.0\ref\CSInventory.dll
+C:\Users\Uzer\source\repos\SeenceX\CSInventory_backend\CSInventory\CSInventory\obj\Debug\net7.0\CSInventory.csproj.AssemblyReference.cache
+C:\Users\Uzer\source\repos\SeenceX\CSInventory_backend\CSInventory\CSInventory\obj\Debug\net7.0\CSInventory.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Uzer\source\repos\SeenceX\CSInventory_backend\CSInventory\CSInventory\obj\Debug\net7.0\CSInventory.AssemblyInfoInputs.cache
+C:\Users\Uzer\source\repos\SeenceX\CSInventory_backend\CSInventory\CSInventory\obj\Debug\net7.0\CSInventory.AssemblyInfo.cs
+C:\Users\Uzer\source\repos\SeenceX\CSInventory_backend\CSInventory\CSInventory\obj\Debug\net7.0\CSInventory.csproj.CoreCompileInputs.cache
+C:\Users\Uzer\source\repos\SeenceX\CSInventory_backend\CSInventory\CSInventory\obj\Debug\net7.0\CSInventory.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Uzer\source\repos\SeenceX\CSInventory_backend\CSInventory\CSInventory\obj\Debug\net7.0\CSInventory.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Uzer\source\repos\SeenceX\CSInventory_backend\CSInventory\CSInventory\obj\Debug\net7.0\CSInventory.dll
+C:\Users\Uzer\source\repos\SeenceX\CSInventory_backend\CSInventory\CSInventory\obj\Debug\net7.0\refint\CSInventory.dll
+C:\Users\Uzer\source\repos\SeenceX\CSInventory_backend\CSInventory\CSInventory\obj\Debug\net7.0\CSInventory.pdb

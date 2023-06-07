@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\andre\\Desktop\\backend\\CSInventory\\CSInventory\\CSInventory.csproj": {}
+    "C:\\Users\\Uzer\\source\\repos\\SeenceX\\CSInventory_backend\\CSInventory\\CSInventory\\CSInventory.csproj": {}
   },
   "projects": {
-    "C:\\Users\\andre\\Desktop\\backend\\CSInventory\\CSInventory\\CSInventory.csproj": {
+    "C:\\Users\\Uzer\\source\\repos\\SeenceX\\CSInventory_backend\\CSInventory\\CSInventory\\CSInventory.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\andre\\Desktop\\backend\\CSInventory\\CSInventory\\CSInventory.csproj",
+        "projectUniqueName": "C:\\Users\\Uzer\\source\\repos\\SeenceX\\CSInventory_backend\\CSInventory\\CSInventory\\CSInventory.csproj",
         "projectName": "CSInventory",
-        "projectPath": "C:\\Users\\andre\\Desktop\\backend\\CSInventory\\CSInventory\\CSInventory.csproj",
-        "packagesPath": "C:\\Users\\andre\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\andre\\Desktop\\backend\\CSInventory\\CSInventory\\obj\\",
+        "projectPath": "C:\\Users\\Uzer\\source\\repos\\SeenceX\\CSInventory_backend\\CSInventory\\CSInventory\\CSInventory.csproj",
+        "packagesPath": "C:\\Users\\Uzer\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Uzer\\source\\repos\\SeenceX\\CSInventory_backend\\CSInventory\\CSInventory\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\andre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Uzer\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -80,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

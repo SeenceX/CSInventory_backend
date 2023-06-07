@@ -1,4 +1,5 @@
-﻿using CSInventory.Data;
+﻿using System.Linq;
+using CSInventory.Data;
 using CSInventory.Database;
 using CSInventoryDatabase.Data;
 using Microsoft.EntityFrameworkCore;
@@ -47,6 +48,55 @@ namespace CSInventory.Managers
 
                 return res.ToList();
                
+            }
+        }
+        public async Task<string> AddUserInventoryItemById(int userId, int itemId)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == userId);
+            if (user == null)
+            {
+                return "Ошибка пользователя";
+            }
+            using (var context = _dbContext)
+            {
+                /*var res = from a in context.Inventory
+                          where a.UserId == userId
+                          select a.AllItems;
+                res.Append<int>(itemId);
+                context.SaveChangesAsync();*/
+                //context.Inventory.Where(x => x.User == user).ExecuteUpdate(s => s.SetProperty(u => u.AllItems, u => u.AllItems.));
+                context.Inventory.Where(x => x.User == user).AllItems.Append<AllItems>(context.AllItems.Where(x => x.ItemId == itemId));
+                return "Предмет успешно добавлен";
+
+            }
+        }
+        public async Task<List<InventoryDto>> DeleteUserInventoryItemById(int userId, int itemId)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == userId);
+            if (user == null)
+            {
+                return "Ошибка пользователя";
+            }
+            using (var context = _dbContext)
+            {
+                //context.Inventory.Where(x => x.User == user).ExecuteDelete
+
+            }
+        }
+        Task<List<InventoryDto>> ChangeUserInventoryItemById(int userId, int itemId, int itemPrice)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == userId);
+            if (user == null)
+            {
+                return "Ошибка пользователя";
+            }
+            using (var context = _dbContext)
+            {
+                var data = from a in context.Inventory
+                           where a.User == user
+                           select a.AllItems;
+                
+
             }
         }
     }
