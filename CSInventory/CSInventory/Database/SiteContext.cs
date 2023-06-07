@@ -22,11 +22,50 @@ namespace CSInventory.Database
         {
             base.OnModelCreating(modelBuilder);
 
-            
+            modelBuilder.Entity<User>().HasData(
+                new User { UserId = 1, Login = "test1", Password = "pass1" },
+                new User { UserId = 2, Login = "test2", Password = "pass2" }
+            );
+
+            //добавление начальных данных для таблицы ItemsQuality
+            modelBuilder.Entity<ItemQuality>().HasData(
+                new ItemQuality { IdQuality = 1, NameQuality = "-" },
+                new ItemQuality { IdQuality = 2, NameQuality = "Закаленное в боях" },
+                new ItemQuality { IdQuality = 3, NameQuality = "Поношенное" },
+                new ItemQuality { IdQuality = 4, NameQuality = "После полевых испытаний" },
+                new ItemQuality { IdQuality = 5, NameQuality = "Немного поношенное" },
+                new ItemQuality { IdQuality = 6, NameQuality = "Прямо с завода" }
+            );
+
+            //добавление начальных данных для таблицы ItemsRare
+            modelBuilder.Entity<ItemRare>().HasData(
+                new ItemRare { IdRare = 1, NameRare = "Базовый класс" },
+                new ItemRare { IdRare = 2, NameRare = "Ширпотреб" },
+                new ItemRare { IdRare = 3, NameRare = "Промышленное качество" },
+                new ItemRare { IdRare = 4, NameRare = "Армейское качество" },
+                new ItemRare { IdRare = 5, NameRare = "Запрещённое" },
+                new ItemRare { IdRare = 6, NameRare = "Засекреченное" },
+                new ItemRare { IdRare = 7, NameRare = "Тайное" },
+                new ItemRare { IdRare = 8, NameRare = "Тайное*" },
+                new ItemRare { IdRare = 9, NameRare = "Сувенир" }
+
+            );
+
+            //добавление начальных данных для таблицы ItemsType
+            modelBuilder.Entity<ItemType>().HasData(
+                new ItemType { IdType = 1, NameType = "Пистолет" },
+                new ItemType { IdType = 2, NameType = "Пистолет-пулемёт" },
+                new ItemType { IdType = 3, NameType = "Штурмовая винтовка" },
+                new ItemType { IdType = 4, NameType = "Снайперская винтовка" },
+                new ItemType { IdType = 5, NameType = "Дробовик" },
+                new ItemType { IdType = 6, NameType = "Нож" },
+                new ItemType { IdType = 7, NameType = "Перчатки" },
+                new ItemType { IdType = 8, NameType = "Другое" }
+            );
 
             //добавление начальных данных для таблицы ItemsCollections
             modelBuilder.Entity<ItemCollection>().HasData(
-                new ItemCollection { IdCollection = 1, NameCollection = "-"},
+                new ItemCollection { IdCollection = 1, NameCollection = "-" },
                 new ItemCollection { IdCollection = 2, NameCollection = "Коллекция «eSports 2013»" },
                 new ItemCollection { IdCollection = 3, NameCollection = "Коллекция «Vertigo»" },
                 new ItemCollection { IdCollection = 4, NameCollection = "Коллекция «Militia»" },
@@ -102,6 +141,7 @@ namespace CSInventory.Database
                 new ItemCollection { IdCollection = 74, NameCollection = "The Revolution Collection" },
                 new ItemCollection { IdCollection = 75, NameCollection = "The Anubis Collection" }
             );
+
         }
     }
 }

@@ -4,39 +4,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CSInventory.Database
 {
-
-   /*
-
-    [Table("all_items")]
-    public class AllItems
+    public class SiteContext : DbContext
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public int ItemId { get; set; }
-        public string ItemImg { get; set; }
-        
-        public string ItemName { get; set; }
-        
-        public decimal ItemPrice { get; set; }
-        [ForeignKey("IdQuality")]
-        public ItemQuality ItemsQuality { get; set; } // навигационное свойство
-        [ForeignKey("IdRare")]
-        public ItemRare itemsRare { get; set; }
-        [ForeignKey("IdType")]
-        public ItemType ItemsType { get; set; }
-        [ForeignKey("IdCollection")]
-        //внешний ключ на таблицу ItemsCollections
-        public ItemCollection ItemCollection { get; set; }
-        
-        //внешний ключ на таблицу inventory, внутри создастся поле ItemId
-        public List<Inventory> Inventories { get; set; }
-    }
-   */
-    
+        public DbSet<User> Users => Set<User>();
+        public DbSet<Inventory> Inventory => Set<Inventory>();
+        public DbSet<AllItems> AllItems => Set<AllItems>();
+        public DbSet<ItemQuality> ItemsQuality => Set<ItemQuality>();
+        public DbSet<ItemRare> itemsRares => Set<ItemRare>();
+        public DbSet<ItemType> ItemsType => Set<ItemType>();
+        public DbSet<ItemCollection> ItemsCollections => Set<ItemCollection>();
 
 
-   
+        public SiteContext(DbContextOptions<SiteContext> options) : base(options) { Database.EnsureCreated(); }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -67,7 +46,10 @@ namespace CSInventory.Database
 
             );
 
-            
+
         }
+    }
+
+    
     
 }

@@ -5,22 +5,6 @@ using Microsoft.EntityFrameworkCore;
 namespace CSInventory.Database
 {
 
-   /*
-
-    [Table("items_rare")]
-    public class ItemRare
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public int IdRare { get; set; }
-        [Required]
-        public string NameRare { get; set; }
-
-    }
-
-    */
-
     public class SiteContext : DbContext
     {
         public DbSet<User> Users => Set<User>();
