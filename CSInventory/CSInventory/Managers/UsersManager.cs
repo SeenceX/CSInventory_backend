@@ -19,20 +19,17 @@ namespace CSInventoryDatabase.Managers
         public async Task<UserDto> GetById(int id)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == id);
-            if (user != null)
-            {
-                return new UserDto { Id = user.UserId, Login = user.Login, Password = user.Password };
-            }
-            else
+            if (user == null)
             {
                 return null;
             }
+            return new UserDto { Id = user.UserId, Login = user.Login, Password = user.Password };
         }
         public async Task<UserDto> Registration(CreateUserRequest createUserRequest)
         {
             User newUser = new User { Login = createUserRequest.Login, Password = createUserRequest.Password, RegistrationDate = DateTime.Now };
 
-            _dbContext.Users.Add(newUser);
+            await _dbContext.Users.AddAsync(newUser);
             await _dbContext.SaveChangesAsync();
             return new UserDto { Login = newUser.Login, Password = newUser.Password };
         }
@@ -49,10 +46,7 @@ namespace CSInventoryDatabase.Managers
 
                 return null;
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
     }
 }
