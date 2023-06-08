@@ -9,7 +9,7 @@ namespace CSInventory.Managers
         Task<string> AddUserInventoryItemById(CreateInventoryRequest createInventoryRequest);
         Task<string> DeleteUserInventoryItemById(CreateInventoryRequest createInventoryRequest);
         Task<string> ChangeUserInventoryItemById(CreateInventoryRequest createInventoryRequest, int itemPrice);
-        /*Task<List<AllItems>> GetAllItems();*/
+        Task<List<AllItems>> GetAllItems();
         Task<List<AllItems>> GetItemLikeName(string name);
     }
 }

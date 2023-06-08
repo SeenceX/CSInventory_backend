@@ -17,11 +17,11 @@ namespace CSInventory.Controllers
             _inventoryManager = inventoryManager;
         }
 
-        /*[HttpGet]
+        [HttpGet("AllItems")]
         public async Task<List<AllItems>> GetAllItems()
         {
             return await _inventoryManager.GetAllItems();
-        }*/
+        }
 
         [HttpGet("{ItemName}")]
         public async Task<List<AllItems>> GetLikeName(string ItemName)
