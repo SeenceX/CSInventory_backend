@@ -1,4 +1,5 @@
 ﻿using CSInventory.Data;
+using CSInventory.Database;
 using CSInventory.Managers;
 using CSInventoryDatabase.Data;
 using Microsoft.AspNetCore.Components;
@@ -15,6 +16,11 @@ namespace CSInventory.Controllers
         {
             _inventoryManager = inventoryManager;
         }
+        [HttpGet]
+        public async Task<List<AllItems>> GetAllItems()
+        {
+            return await _inventoryManager.GetAllItems();
+        }
 
         [HttpGet("{Id:int}")]
         public async Task<List<InventoryDto>> GetUserInventoryById(int Id)
@@ -22,19 +28,19 @@ namespace CSInventory.Controllers
             return await _inventoryManager.GetUserInventoryById(Id);
         }
         [HttpPost("add")]
-        public async Task<string> AddUserInventoryItemById(int userId, int itemId)
+        public async Task<string> AddUserInventoryItemById([FromBody] CreateInventoryRequest request)
         {
-            return await _inventoryManager.AddUserInventoryItemById(userId, itemId);
+            return await _inventoryManager.AddUserInventoryItemById(request);
         }
         [HttpPost("delete")]
-        public async Task<string> DeleteUserInventoryItemById(int userId, int itemId)
+        public async Task<string> DeleteUserInventoryItemById([FromBody] CreateInventoryRequest request)//CreateInventoryRequest
         {
-            return await _inventoryManager.DeleteUserInventoryItemById(userId,  itemId);
+            return await _inventoryManager.DeleteUserInventoryItemById(request);
         }
         [HttpPost("change")]
-        public async Task<string> ChangeUserInventoryItemById(int userId, int itemId, int itemPrice)
+        public async Task<string> ChangeUserInventoryItemById([FromBody] CreateInventoryRequest request, int itemPrice)
         {
-            return await _inventoryManager.ChangeUserInventoryItemById( userId,  itemId,  itemPrice);
+            return await _inventoryManager.ChangeUserInventoryItemById( request,  itemPrice);
         }
     }
 }

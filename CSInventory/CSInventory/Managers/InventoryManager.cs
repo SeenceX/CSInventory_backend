@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using CSInventory.Data;
+﻿using CSInventory.Data;
 using CSInventory.Database;
 using CSInventoryDatabase.Data;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +11,22 @@ namespace CSInventory.Managers
         public InventoryManager(SiteContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public async Task<List<AllItems>> GetAllItems()
+        {
+            var allitems  = await _dbContext.AllItems.ToListAsync();
+            return allitems.Select(x => new AllItems()
+            {
+                ItemId = x.ItemId,
+                ItemImg = x.ItemImg,
+                ItemName = x.ItemName,
+                ItemPrice = x.ItemPrice,
+                ItemsQuality = x.ItemsQuality,
+                itemsRare = x.itemsRare,
+                ItemsType = x.ItemsType,
+                ItemCollection = x.ItemCollection
+            }).ToList();
         }
 
         public async Task<List<InventoryDto>> GetUserInventoryById(int id)
@@ -49,16 +64,16 @@ namespace CSInventory.Managers
                
             }
         }
-        public async Task<string> AddUserInventoryItemById(int userId, int itemId)
+        public async Task<string> AddUserInventoryItemById(CreateInventoryRequest createInventoryRequest)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == userId);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == createInventoryRequest.UserId);
             if (user == null)
             {
                 return "Ошибка пользователя";
             }
             using (var context = _dbContext)
             {
-                var inv = await context.AllItems.FirstAsync(x => x.ItemId == itemId);
+                var inv = await context.AllItems.FirstAsync(x => x.ItemId == createInventoryRequest.ItemId);
                 await context.Inventory.AddAsync(new Inventory
                 {
                     Id = await context.Inventory.Where(u => u.User == user).CountAsync()+1,
@@ -72,29 +87,29 @@ namespace CSInventory.Managers
             }
             
         }
-        public async Task<string> DeleteUserInventoryItemById(int userId, int itemId)
+        public async Task<string> DeleteUserInventoryItemById(CreateInventoryRequest createInventoryRequest)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == userId);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == createInventoryRequest.UserId);
             if (user == null)
             {
                 return "Ошибка пользователя";
             }
             using (var context = _dbContext)
             {
-                await context.Inventory.Where(x => (x.User == user) && (x.AllItems.ItemId == itemId)).ExecuteDeleteAsync();
+                await context.Inventory.Where(x => (x.User == user) && (x.AllItems.ItemId == createInventoryRequest.ItemId)).ExecuteDeleteAsync();
                 return "Удаление прошло успешно";
             }
         }
-        public async Task<string> ChangeUserInventoryItemById(int userId, int itemId, int itemPrice)
+        public async Task<string> ChangeUserInventoryItemById(CreateInventoryRequest createInventoryRequest, int itemPrice)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == userId);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == createInventoryRequest.UserId);
             if (user == null)
             {
                 return "Ошибка пользователя";
             }
             using (var context = _dbContext)
             {
-                await context.Inventory.Where(x => (x.User == user) && (x.AllItems.ItemId == itemId))
+                await context.Inventory.Where(x => (x.User == user) && (x.AllItems.ItemId == createInventoryRequest.ItemId))
                     .ExecuteUpdateAsync(s => s.SetProperty(u => u.InitialPrice, u => itemPrice));
                 return "Цена успешно изменена";
             }
