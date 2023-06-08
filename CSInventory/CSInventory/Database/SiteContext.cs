@@ -5,125 +5,6 @@ using Microsoft.EntityFrameworkCore;
 namespace CSInventory.Database
 {
 
-    [Table("users")]
-    public class User
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public int UserId { get; set; }
-
-        [Required]
-        public string Login { get; set; }
-
-        [Required]
-        public string Password { get; set; }
-
-        [Required]
-        public DateTime RegistrationDate { get; set; }
-
-        //внешний ключ на таблицу inventory, внутри которой создастся поле UserId связь один ко многиь (1->m)
-        //[ForeignKey("InventoryId")]
-        //public List<Inventory> Inventories { get; set; }
-
-
-    }
-
-    [Table("inventory")]
-    public class Inventory
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public int Id { get; set; }
-        [ForeignKey("UserId")]
-        public User User { get; set; }
-        
-        [ForeignKey("ItemId")]
-        public AllItems AllItems { get; set; }
-        
-        public int ItemCount { get; set; }
-        
-        public decimal InitialPrice { get; set; }
-        
-
-    }
-
-    [Table("all_items")]
-    public class AllItems
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public int ItemId { get; set; }
-        public string ItemImg { get; set; }
-        
-        public string ItemName { get; set; }
-        
-        public decimal ItemPrice { get; set; }
-        [ForeignKey("IdQuality")]
-        public ItemQuality ItemsQuality { get; set; } // навигационное свойство
-        [ForeignKey("IdRare")]
-        public ItemRare itemsRare { get; set; }
-        [ForeignKey("IdType")]
-        public ItemType ItemsType { get; set; }
-        [ForeignKey("IdCollection")]
-        //внешний ключ на таблицу ItemsCollections
-        public ItemCollection ItemCollection { get; set; }
-        [ForeignKey("IdItem")]
-        //внешний ключ на таблицу inventory, внутри создастся поле ItemId
-        public List<Inventory> Inventories { get; set; }
-    }
-
-    [Table("items_quality")]
-    public class ItemQuality
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public int IdQuality { get; set; }
-        [Required]
-        public string NameQuality { get; set; }
-
-    }
-
-    [Table("items_rare")]
-    public class ItemRare
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public int IdRare { get; set; }
-        [Required]
-        public string NameRare { get; set; }
-
-    }
-
-    [Table("items_type")]
-    public class ItemType
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public int IdType { get; set; }
-        [Required]
-        public string NameType { get; set; }
-
-    }
-
-    [Table("items_collection")]
-    public class ItemCollection
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public int IdCollection { get; set; }
-        [Required]
-        public string NameCollection { get; set; }
-
-    }
-#
-
     public class SiteContext : DbContext
     {
         public DbSet<User> Users => Set<User>();
@@ -141,7 +22,6 @@ namespace CSInventory.Database
         {
             base.OnModelCreating(modelBuilder);
 
-            //добавление начальных данных для таблицы Users
             modelBuilder.Entity<User>().HasData(
                 new User { UserId = 1, Login = "test1", Password = "pass1" },
                 new User { UserId = 2, Login = "test2", Password = "pass2" }
@@ -150,7 +30,7 @@ namespace CSInventory.Database
             //добавление начальных данных для таблицы ItemsQuality
             modelBuilder.Entity<ItemQuality>().HasData(
                 new ItemQuality { IdQuality = 1, NameQuality = "-" },
-                new ItemQuality { IdQuality = 2, NameQuality = "Закаленное в боях"},
+                new ItemQuality { IdQuality = 2, NameQuality = "Закаленное в боях" },
                 new ItemQuality { IdQuality = 3, NameQuality = "Поношенное" },
                 new ItemQuality { IdQuality = 4, NameQuality = "После полевых испытаний" },
                 new ItemQuality { IdQuality = 5, NameQuality = "Немного поношенное" },
@@ -168,7 +48,7 @@ namespace CSInventory.Database
                 new ItemRare { IdRare = 7, NameRare = "Тайное" },
                 new ItemRare { IdRare = 8, NameRare = "Тайное*" },
                 new ItemRare { IdRare = 9, NameRare = "Сувенир" }
-                
+
             );
 
             //добавление начальных данных для таблицы ItemsType
@@ -185,7 +65,7 @@ namespace CSInventory.Database
 
             //добавление начальных данных для таблицы ItemsCollections
             modelBuilder.Entity<ItemCollection>().HasData(
-                new ItemCollection { IdCollection = 1, NameCollection = "-"},
+                new ItemCollection { IdCollection = 1, NameCollection = "-" },
                 new ItemCollection { IdCollection = 2, NameCollection = "Коллекция «eSports 2013»" },
                 new ItemCollection { IdCollection = 3, NameCollection = "Коллекция «Vertigo»" },
                 new ItemCollection { IdCollection = 4, NameCollection = "Коллекция «Militia»" },
@@ -261,6 +141,32 @@ namespace CSInventory.Database
                 new ItemCollection { IdCollection = 74, NameCollection = "The Revolution Collection" },
                 new ItemCollection { IdCollection = 75, NameCollection = "The Anubis Collection" }
             );
+
+            //добавление начальных данных для таблицы AllItems
+            modelBuilder.Entity<AllItems>().HasData(
+                new AllItems { ItemId = 1, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpopuP1FAR17OORIXBD_9W_mY-dqP_xMq3IqWdQ-sJ0xLvEpNugjQTm80BvZ2_0doTAdFBraFCE8lnoyers15PptZjMyiEyuCQ8pSGKT1_PUsY/64fx64f", ItemName = "P90 | Азимов", ItemPrice = "592.93", ItemsQuality = "Закаленное в боях", itemsRare = "Тайное", ItemsType = "Пистолет-пулемёт", ItemCollection = "Прорыв" },
+                new AllItems { ItemId = 2, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpotLu8JAllx8zAaAJV6d6lq4yCkP_gDLfQhGxUppwj3r-Rpd3zjAy38xFsMGn0I9LGcA49Zw2B_VO5wL_r1Ja-vJrMySB9-n51NRRkGyg/64fx64f", ItemName = "Штык-нож | Кровавая паутина", ItemPrice = "306 156.69", ItemsQuality = "Прямо с завода", itemsRare = "Тайное", ItemsType = "Нож", ItemCollection = "-" },
+                new AllItems { ItemId = 3, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpoo6m1FBRp3_bGcjhQ09-jq4uKnvr1PYTck29Y_chOhujT8om72Ay2_ENuY26ncoDBd1I_MlCBrgW5ye_u1sC_vJ6YyXtgsiYh7HnUywv330-jy4MGQg/64fx64f", ItemName = "USP-S | Кайман", ItemPrice = "3 139", ItemsQuality = "После полевых испытаний", itemsRare = "Засекреченное", ItemsType = "Пистолет", ItemCollection = "Охотничья коллекция" },
+                new AllItems { ItemId = 4, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpot7HxfDhnwMzJemkV0966m4-PhOf7Ia_um25V4dB8teXA54vwxlCy-0Y_YTimdoLEdwU5YguEq1i9k-e515e-tM_JzCYwuiNx4SyLmxapwUYbIBBxC48/64fx64f", ItemName = "AK-47 | Кровавый спорт", ItemPrice = "7 590", ItemsQuality = "После полевых испытаний", itemsRare = "Тайное", ItemsType = "Штурмовая винтовка", ItemCollection = "Спектр" },
+                new AllItems { ItemId = 5, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpot621FA957PvBZzh94dmynZWGqPv1IbzU2DMEv8Rw3-3Epo6giQyxqkFoYGChJ4adcQ46YAzY_1DswObvgMO_u8nXiSw0zFWmqYw/64fx64f", ItemName = "AWP | Электрический улей", ItemPrice = "3 315.13", ItemsQuality = "После полевых испытаний", itemsRare = "Засекреченное", ItemsType = "Снайперская винтовка", ItemCollection = "Коллекция «eSports 2013»" },
+                new AllItems { ItemId = 6, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpou-6kejhzw8zbZTxQ096klZaEqPrxN7LEm1Rd6dd2j6eT8I-iiQK2rUo6YWv0cNWVcgM_aV2GrwPrlbrvhpK1tZ7Mz3tj6SJx-z-DyOOk6P2x/64fx64f", ItemName = "M4A4 | Зирка", ItemPrice = "2 159.79", ItemsQuality = "После полевых испытаний", itemsRare = "Запрещённое", ItemsType = "Штурмовая винтовка", ItemCollection = "Браво" },
+                new AllItems { ItemId = 7, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpou-6kejhzw8zKZDl97tCjkb-HnvD8J4Tdl3lW7Yt32bjDrdSn2gK3_ERoa2n2II7EclU_NF7S_1m_k7u-jcC_tZnPwHJlpGB8svQRy-TR/64fx64f", ItemName = "M4A4 | Тёмное цветение", ItemPrice = "1500", ItemsQuality = "Прямо с завода", itemsRare = "Промышленное качество", ItemsType = "Штурмовая винтовка", ItemCollection = "St. Marc" },
+                new AllItems { ItemId = 8, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsUFJ5KBFZv668FFMu1aPMI24auITjxteJwPXxY72AkGgIvZAniLjHpon2jlbl-kpvNjz3JJjVLFG9rl1YLQ/64fx64f", ItemName = "Оружейный кейс операции «Прорыв»", ItemPrice = "479.08", ItemsQuality = "-", itemsRare = "Базовый класс", ItemsType = "Другое", ItemCollection = "Прорыв" },
+                new AllItems { ItemId = 9, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpou7uifDhh3szGcCtb08--nY6OqPv9NLPFqWdQ-sJ0xO_Fp4qk2gDlqBZsMT-iJYDHIFRqaVHX-we5w-brg5K-tc6awXVn7iA8pSGKCZDD33w/64fx64f", ItemName = "MAG-7 | Флотский блеск", ItemPrice = "12", ItemsQuality = "Немного поношенное", itemsRare = "Ширпотреб", ItemsType = "Дробовик", ItemCollection = "Коллекция Mirage 2021" },
+                new AllItems { ItemId = 10, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgposbupIgthwczLZAJF7dC_mL-KleX1ILLemFRZ7cRnk9bN9J7yjRq3-hI-a2imIIbAdwJoN1_W_VXvlbjv1sW_75rOyydmuCQk4HnUlxfjn1gSOX65Pfcs/64fx64f", ItemName = "Автомат «Галиль» | Щелкунчик", ItemPrice = "465.29", ItemsQuality = "Закаленное в боях", itemsRare = "Тайное", ItemsType = "Штурмовая винтовка", ItemCollection = "Коллекция из хромированного кейса" },
+                new AllItems { ItemId = 11, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgposbaqKAxf0Ob3djFN79f7mImagvLnML7fglRd4cJ5ntbN9J7yjRrl_kI5amz3cdKRI1NoY1CDqQK7xLrv1se47pnKmHU3syYm4SnemUTkn1gSOYPIEaei/64fx64f", ItemName = "Glock-18 | Дух воды", ItemPrice = "1 207.14", ItemsQuality = "Прямо с завода", itemsRare = "Засекреченное", ItemsType = "Пистолет", ItemCollection = "Прорыв" },
+                new AllItems { ItemId = 12, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-fRPasw8rsVk5kKhZDpYX3e1Yz7KKcPzwav9jnzdfdlfWmY7_TzmkF6ZMlj77A9o3x0Qe1qhBkZGjxI9LBJgMgIQaH1G7WeaA/64fx64f", ItemName = "Зимний кейс eSports 2013", ItemPrice = "643.62", ItemsQuality = "-", itemsRare = "Базовый класс", ItemsType = "Другое", ItemCollection = "Коллекция «eSports 2013" },
+                new AllItems { ItemId = 13, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgposLuoKhRfwOP3ejNN-M-Jloyeksj5Nr_Yg2Zu5MRjjeyPp9ik2AHi-0s4ZG_3ctOSc1BvNVzYrlG7wby60Z67uJrNwSdruCV05mGdwUL0cJQQGQ/64fx64f", ItemName = "FAMAS | Ночной Борре", ItemPrice = "442.75", ItemsQuality = "После полевых испытаний", itemsRare = "Ширпотреб", ItemsType = "Штурмовая винтовка", ItemCollection = "Север" },
+                new AllItems { ItemId = 14, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXX7gNTPcUxuxpJSXPbQv2S1MDeXkh6LBBOievrLVY2i6ebKDsbv47hw4TTlaSsZeKIxztQu8B03L2Y8Imh2Aftrhc-Z3ezetFDsuzS1g/64fx64f", ItemName = "Ключ от кейса Winter Offensive", ItemPrice = "1111", ItemsQuality = "-", itemsRare = "Базовый класс", ItemsType = "Другое", ItemCollection = "Winter Offensive" },
+                new AllItems { ItemId = 15, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpou7umeldf0Ob3fDxBvYyJmoWEmeX9N77DqWZU7Mxkh9bN9J7yjRrl-0E-NTqnJ4OdewQ3NQmF-FO8yerngpe5upzOzCc273Qrsy2LnRGwn1gSOcWK_T7P/64fx64f", ItemName = "MAC-10 | Неоновый гонщик", ItemPrice = "560", ItemsQuality = "После полевых испытаний", itemsRare = "Тайное", ItemsType = "Пистолет-пулемёт", ItemCollection = "Коллекция из хромированного кейса #2" },
+                new AllItems { ItemId = 16, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpot7HxfDhhwszJemkV09-3hpSOm8j5Nr_Yg2Zu5MRjjeyP8I6jjlHg-UJsMG33J9CRegI3ZgrTrlS3wevs05616pmcmnBg63Mh5GGdwUIXr_jb8w/64fx64f", ItemName = "AK-47 | Картель", ItemPrice = "862", ItemsQuality = "Поношенное", itemsRare = "Засекреченное", ItemsType = "Штурмовая винтовка", ItemCollection = "Коллекция из хромированного кейса" },
+                new AllItems { ItemId = 17, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgposbaqKAxf0v73fyhB4Nm3hr-bluPgNqnfx1RW5MpygdbM8Ij8nVmLpxIuNDztLNeXegQ3YQzV-li9ye_pjZW0uJvJnCFguCAhtHvVzhG01U4fauZmg-veFwv4TERPOw/64fx64f", ItemName = "Glock-18 | Реактор", ItemPrice = "364.99", ItemsQuality = "После полевых испытаний", itemsRare = "Армейское качество", ItemsType = "Пистолет", ItemCollection = "Cache" },
+                new AllItems { ItemId = 18, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgposbupIgthwczLZAJF7dC_mIGZqOf1Ia_YlWdU-_p9g-7J4bP5iUazrl1kZGrxcoCRJgM9NQqD8wO-kunsh5C4vZvMzCZn7Ckr5H3Zyx3k0EsfcKUx0tENzMgC/64fx64f", ItemName = "Автомат «Галиль» | Леденец", ItemPrice = "567.69", ItemsQuality = "Прямо с завода", itemsRare = "Армейское качество", ItemsType = "Штурмовая винтовка", ItemCollection = "Фальшион" },
+                new AllItems { ItemId = 19, ItemImg = "https://community.cloudflare.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpopbmkOVUw7PDdTi5B7c6Jl5mZku_LPr7Vn35c18lwmO7Eu4rz2gLtrkE5ZGH0doHBdQU_YlHTrAO7yebs08O8vMnLwCBjs3Fx5XzD30vgG8tICKs/64fx64f", ItemName = "SCAR-20 | Сайрекс", ItemPrice = "4 370", ItemsQuality = "После полевых испытаний", itemsRare = "Засекреченное", ItemsType = "Снайперская винтовка", ItemCollection = "Охотничья коллекция" }
+                
+
+            );
+
         }
     }
-}#
+}
