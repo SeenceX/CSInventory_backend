@@ -21,5 +21,20 @@ namespace CSInventory.Controllers
         {
             return await _inventoryManager.GetUserInventoryById(Id);
         }
+        [HttpPost("add")]
+        public async Task<string> AddUserInventoryItemById(int userId, int itemId)
+        {
+            return await _inventoryManager.AddUserInventoryItemById(userId, itemId);
+        }
+        [HttpPost("delete")]
+        public async Task<string> DeleteUserInventoryItemById(int userId, int itemId)
+        {
+            return await _inventoryManager.DeleteUserInventoryItemById(userId,  itemId);
+        }
+        [HttpPost("change")]
+        public async Task<string> ChangeUserInventoryItemById(int userId, int itemId, int itemPrice)
+        {
+            return await _inventoryManager.ChangeUserInventoryItemById( userId,  itemId,  itemPrice);
+        }
     }
 }

@@ -21,8 +21,7 @@ namespace CSInventory.Managers
             {
                 return null;
             }
-
-
+            
             using (var context = _dbContext)
             {
                 var res = from a in context.AllItems
@@ -59,19 +58,21 @@ namespace CSInventory.Managers
             }
             using (var context = _dbContext)
             {
-                var res = from a in context.Inventory
-                          where a.Id == userId
-                          select a.AllItems;
-                res.Append<AllItems>(x => x = context.AllItems.Where(x => x.ItemId == itemId));
-                context.SaveChangesAsync();
-                //context.ExecuteUpdate(s => s.SetProperty(u => u.AllItems, u => u.AllItems.Append<AllItems>(context.AllItems.Where(x => x.ItemId == itemId))));
-                
-                //using context.AllItems.Append<AllItems>(context.AllItems.Where(x => x.ItemId == itemId));
-                return "Предмет успешно добавлен";
-
+                var inv = await context.AllItems.FirstAsync(x => x.ItemId == itemId);
+                await context.Inventory.AddAsync(new Inventory
+                {
+                    Id = await context.Inventory.Where(u => u.User == user).CountAsync()+1,
+                    User = user,
+                    AllItems = inv,
+                    ItemCount = await context.Inventory.Where(u => u.User == user).CountAsync()+1,
+                    InitialPrice = inv.ItemPrice,
+                });
+                await context.SaveChangesAsync();
+                return "Добавление прошло успешно";
             }
+            
         }
-        public async Task<List<InventoryDto>> DeleteUserInventoryItemById(int userId, int itemId)
+        public async Task<string> DeleteUserInventoryItemById(int userId, int itemId)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == userId);
             if (user == null)
@@ -80,11 +81,11 @@ namespace CSInventory.Managers
             }
             using (var context = _dbContext)
             {
-                //context.Inventory.Where(x => x.User == user).ExecuteDelete
-
+                await context.Inventory.Where(x => (x.User == user) && (x.AllItems.ItemId == itemId)).ExecuteDeleteAsync();
+                return "Удаление прошло успешно";
             }
         }
-        Task<List<InventoryDto>> ChangeUserInventoryItemById(int userId, int itemId, int itemPrice)
+        public async Task<string> ChangeUserInventoryItemById(int userId, int itemId, int itemPrice)
         {
             var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.UserId == userId);
             if (user == null)
@@ -93,11 +94,9 @@ namespace CSInventory.Managers
             }
             using (var context = _dbContext)
             {
-                var data = from a in context.Inventory
-                           where a.User == user
-                           select a.AllItems;
-                
-
+                await context.Inventory.Where(x => (x.User == user) && (x.AllItems.ItemId == itemId))
+                    .ExecuteUpdateAsync(s => s.SetProperty(u => u.InitialPrice, u => itemPrice));
+                return "Цена успешно изменена";
             }
         }
     }
