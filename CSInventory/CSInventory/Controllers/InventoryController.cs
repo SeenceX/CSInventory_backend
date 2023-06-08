@@ -1,4 +1,5 @@
 ﻿using CSInventory.Data;
+using CSInventory.Database;
 using CSInventory.Managers;
 using CSInventoryDatabase.Data;
 using Microsoft.AspNetCore.Components;
@@ -15,11 +16,31 @@ namespace CSInventory.Controllers
         {
             _inventoryManager = inventoryManager;
         }
+        [HttpGet]
+        public async Task<List<AllItems>> GetAllItems()
+        {
+            return await _inventoryManager.GetAllItems();
+        }
 
         [HttpGet("{Id:int}")]
         public async Task<List<InventoryDto>> GetUserInventoryById(int Id)
         {
             return await _inventoryManager.GetUserInventoryById(Id);
+        }
+        [HttpPost("add")]
+        public async Task<string> AddUserInventoryItemById([FromBody] CreateInventoryRequest request)
+        {
+            return await _inventoryManager.AddUserInventoryItemById(request);
+        }
+        [HttpPost("delete")]
+        public async Task<string> DeleteUserInventoryItemById([FromBody] CreateInventoryRequest request)//CreateInventoryRequest
+        {
+            return await _inventoryManager.DeleteUserInventoryItemById(request);
+        }
+        [HttpPost("change")]
+        public async Task<string> ChangeUserInventoryItemById([FromBody] CreateInventoryRequest request, int itemPrice)
+        {
+            return await _inventoryManager.ChangeUserInventoryItemById( request,  itemPrice);
         }
     }
 }

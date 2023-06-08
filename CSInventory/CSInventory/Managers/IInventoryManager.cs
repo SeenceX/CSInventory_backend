@@ -1,12 +1,14 @@
 ﻿using CSInventory.Data;
+using CSInventory.Database;
 
 namespace CSInventory.Managers
 {
     public interface IInventoryManager
     {
         Task<List<InventoryDto>> GetUserInventoryById(int id);
-        Task<string> AddUserInventoryItemById(int userId, int itemId);
-        Task<string> DeleteUserInventoryItemById(int userId, int itemId);
-        Task<string> ChangeUserInventoryItemById(int userId, int itemId, int itemPrice);
+        Task<string> AddUserInventoryItemById(CreateInventoryRequest createInventoryRequest);
+        Task<string> DeleteUserInventoryItemById(CreateInventoryRequest createInventoryRequest);
+        Task<string> ChangeUserInventoryItemById(CreateInventoryRequest createInventoryRequest, int itemPrice);
+        Task<List<AllItems>> GetAllItems();
     }
 }
